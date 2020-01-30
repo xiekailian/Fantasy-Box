@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:home_swiper';
 import 'widgets/home_swiper.dart';
+import 'widgets/user_release_bar.dart';
+import 'widgets/home_display.dart';
 
 void main() => runApp(MyApp());
 
@@ -73,27 +74,37 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Column(
-        // Column is also a layout widget. It takes a list of children and
-        // arranges them vertically. By default, it sizes itself to fit its
-        // children horizontally, and tries to be as tall as its parent.
-        //
-        // Invoke "debug painting" (press "p" in the console, choose the
-        // "Toggle Debug Paint" action from the Flutter Inspector in Android
-        // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-        // to see the wireframe for each widget.
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          HomeSwiper(),
-          Text(
-            'You have pushed the button this many times:',
-          ),
-          Text(
-            '$_counter',
-            style: Theme.of(context).textTheme.display1,
-          ),
-        ],
-      ),
+      body:SingleChildScrollView(
+        child: Column(
+          // Column is also a layout widget. It takes a list of children and
+          // arranges them vertically. By default, it sizes itself to fit its
+          // children horizontally, and tries to be as tall as its parent.
+          //
+          // Invoke "debug painting" (press "p" in the console, choose the
+          // "Toggle Debug Paint" action from the Flutter Inspector in Android
+          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+          // to see the wireframe for each widget.
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            HomeSwiper(),
+            UserReleaseBar(),
+            Flexible(
+              fit: FlexFit.loose,
+              child: HomeDisplay(),
+            ),
+            // Expanded(
+            //   flex: 1,
+            //   child: HomeDisplayGrid(),
+            // ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.display1,
+            ),
+          ],
+        ),
+      ), 
+      
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
