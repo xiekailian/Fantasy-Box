@@ -19,3 +19,12 @@ doc/api/
 *.js_
 *.js.deps
 *.js.map
+
+*.iml
+.gradle
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.idea/
+.vscode
