@@ -85,22 +85,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
           // to see the wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             HomeSwiper(),
             UserReleaseBar(),
-            Flexible(
-              fit: FlexFit.loose,
-              child: HomeDisplay(),
-            ),
-            // Expanded(
-            //   flex: 1,
-            //   child: HomeDisplayGrid(),
-            // ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
+            HomeDisplay(),
           ],
         ),
       ), 
