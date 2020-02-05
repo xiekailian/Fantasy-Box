@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_swiper.dart';
 import '../mock/home_mock.dart';
 
 class HomeDisplay extends StatefulWidget {
@@ -64,14 +65,26 @@ class HomeDisplayState extends State<HomeDisplay> with SingleTickerProviderState
       contentItems.add(
         Container(
           padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-          child: Column(
-            children: <Widget>[
-              Image(
-                width: 200.0,
-                image: NetworkImage(item['imgUrl'])
+          child: FlatButton(
+            padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  Image(
+                    width: 200.0,
+                    image: NetworkImage(item['imgUrl'])
+                  ),
+                  Text(item['name'])
+                ],
               ),
-              Text(item['name'])
-            ],
+            ),
+            onPressed: () {
+              //导航到新路由   
+              Navigator.push( context,
+              MaterialPageRoute(builder: (context) {
+                  return HomeSwiper();
+              }));
+            }, 
           ),
         )
       );
@@ -80,7 +93,7 @@ class HomeDisplayState extends State<HomeDisplay> with SingleTickerProviderState
     contentItems.add(
       Container(
         height: 0,
-        width: 220.0,
+        width: 240.0,
       )
     );
     return contentItems;
