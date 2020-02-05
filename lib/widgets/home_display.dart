@@ -15,7 +15,6 @@ class HomeDisplayState extends State<HomeDisplay> with SingleTickerProviderState
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _tabController = TabController(length: typeList.length, vsync: this);
   }
@@ -79,9 +78,9 @@ class HomeDisplayState extends State<HomeDisplay> with SingleTickerProviderState
               ),
             ),
             onPressed: () {
-              //导航到新路由   
+              //导航到新路由
               Navigator.push( context,
-              MaterialPageRoute(builder: (context) {
+                MaterialPageRoute(builder: (context) {
                   return HomeSwiper();
               }));
             }, 
