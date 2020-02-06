@@ -13,32 +13,20 @@ class UserReleaseBarState extends State<UserReleaseBar> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 10,horizontal: 16),
-          child: Row(
-            children: <Widget>[
-              CircleAvatar(
-                backgroundImage: NetworkImage('http://via.placeholder.com/350x150'),
-              ),
-              Text(
-                'User Place...........'
-              ),
-            ],
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 10,horizontal: 16),
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.new_releases),
+                Text(
+                  '这就去发布'
+                ),
+              ],
+            )
           ),
-        ),//用户登录信息区域
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 10,horizontal: 16),
-          child: Row(
-            children: <Widget>[
-              CircleAvatar(
-                backgroundImage: NetworkImage('http://via.placeholder.com/350x150'),
-              ),
-              Text(
-                'Release Place'
-              ),
-            ],
-          )
-        )//最重要的发布产品按钮区域
+        ),
+        //最重要的发布产品按钮区域
       ],
     );
   }
