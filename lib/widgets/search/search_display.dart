@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'home_swiper.dart';
-import '../mock/home_mock.dart';
+import '../../mock/home_mock.dart';
 
-class HomeDisplay extends StatefulWidget {
+class SearchDisplay extends StatefulWidget {
   @override
-  HomeDisplayState createState() {
-    return HomeDisplayState();
+  SearchDisplayState createState() {
+    return SearchDisplayState();
   }
 }
 
-class HomeDisplayState extends State<HomeDisplay> with SingleTickerProviderStateMixin {
+class SearchDisplayState extends State<SearchDisplay> with SingleTickerProviderStateMixin {
   TabController _tabController;
   // List typeList = [];
 
@@ -79,10 +78,10 @@ class HomeDisplayState extends State<HomeDisplay> with SingleTickerProviderState
             ),
             onPressed: () {
               //导航到新路由
-              Navigator.push( context,
-                MaterialPageRoute(builder: (context) {
-                  return HomeSwiper();
-              }));
+              // Navigator.push( context,
+              //   MaterialPageRoute(builder: (context) {
+              //     return HomeSwiper();
+              // }));
             }, 
           ),
         )

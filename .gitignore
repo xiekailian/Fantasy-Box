@@ -32,3 +32,4 @@ doc/api/
 .idea/
 .vscode
 .flutter-plugins
+.flutter-plugins-dependencies
