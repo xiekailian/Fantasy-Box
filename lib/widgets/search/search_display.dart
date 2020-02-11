@@ -34,24 +34,29 @@ class SearchDisplayState extends State<SearchDisplay> with SingleTickerProviderS
               tabs: typeList.map((e) => Tab(text: e['name'])).toList()
             ),
           ),
-          Container(
-            height: 400.0,
-            color: Colors.lightBlue[50],
-            child: TabBarView(
-              controller: _tabController,
-              children: typeList.map((e) { //创建3个Tab页
-                return Container(
-                  // alignment: Alignment.center,
-                  // height: 100.0,
-                  // width: 100.0,
-                  child: Wrap(
-                    alignment: WrapAlignment.spaceAround,
-                    children: _buildContentItems(e['content']),
-                  ),
-                );
-              }).toList(),
+          Expanded(
+            child: Container(
+              color: Colors.lightBlue[50],
+              child: TabBarView(
+                controller: _tabController,
+                children: typeList.map((e) { //创建3个Tab页
+                  return Container(
+                    // alignment: Alignment.center,
+                    // height: 100.0,
+                    // width: 100.0,
+                    child: ListView(
+                      children: <Widget>[
+                        Wrap(
+                          alignment: WrapAlignment.spaceAround,
+                          children: _buildContentItems(e['content']),
+                        )
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
             ),
-          )
+          ),
         ],
       )
     );

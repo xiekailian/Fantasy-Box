@@ -21,26 +21,7 @@ class _SearchPageState extends State<SearchPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: navigatorBar(context,title: 'Search Products'),
-      body:ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-            Column(
-            // Column is also a layout widget. It takes a list of children and
-            // arranges them vertically. By default, it sizes itself to fit its
-            // children horizontally, and tries to be as tall as its parent.
-            //
-            // Invoke "debug painting" (press "p" in the console, choose the
-            // "Toggle Debug Paint" action from the Flutter Inspector in Android
-            // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-            // to see the wireframe for each widget.
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              SearchDisplay(),
-            ],
-          )
-        ],
-      ), 
-      
+      body:SearchDisplay(), 
       floatingActionButton: FloatingActionButton(
         onPressed: null,
         tooltip: 'Increment',
