@@ -1,0 +1,1 @@
+final List myPageTabNames = ['主页','收藏集'];

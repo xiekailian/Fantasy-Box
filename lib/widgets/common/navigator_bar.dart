@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../home/home_swiper.dart';
 import '../search/search_page.dart';
 import '../product/detail.dart';
+import '../my/my_page.dart';
 
 TextEditingController searchController = TextEditingController();
 navigatorBar(BuildContext context, {String title='Fantasy Box', VoidCallback onPressed}){
@@ -68,7 +68,7 @@ navigatorBar(BuildContext context, {String title='Fantasy Box', VoidCallback onP
           onPointerUp: (PointerUpEvent event){
             Navigator.push( context,
               MaterialPageRoute(builder: (context) {
-                return HomeSwiper();
+                return MyPage();
             }));
           },
         ),
