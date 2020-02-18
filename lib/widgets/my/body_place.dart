@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../mock/home_mock.dart';
 import '../../const/my_page_const.dart';
+import '../common/upload_img_place.dart';
 
 class BodyPlace extends StatefulWidget {
   @override
@@ -49,7 +50,7 @@ class BodyPlaceState extends State<BodyPlace> with SingleTickerProviderStateMixi
                       children: <Widget>[
                         Wrap(
                           alignment: WrapAlignment.spaceAround,
-                          // children: _buildContentItems(e['content']),
+                          children: _buildContentItems(),
                         )
                       ],
                     ),
@@ -63,41 +64,13 @@ class BodyPlaceState extends State<BodyPlace> with SingleTickerProviderStateMixi
     );
   }
 
-  List<Widget> _buildContentItems(List contentNames){
+  List<Widget> _buildContentItems(){
     List<Widget> contentItems = [];
-    for (var item in contentNames) {
-      contentItems.add(
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-          child: FlatButton(
-            padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  Image(
-                    width: 200.0,
-                    image: NetworkImage(item['imgUrl'])
-                  ),
-                  Text(item['name'])
-                ],
-              ),
-            ),
-            onPressed: () {
-              //导航到新路由
-              // Navigator.push( context,
-              //   MaterialPageRoute(builder: (context) {
-              //     return HomeSwiper();
-              // }));
-            }, 
-          ),
-        )
-      );
-    }
-    for(int i = 0;i<6;i++)
     contentItems.add(
       Container(
-        height: 0,
-        width: 240.0,
+        width: 200.0,
+        height: 200.0,
+        child: UploadImgPlace(),
       )
     );
     return contentItems;
