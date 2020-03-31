@@ -23,19 +23,23 @@ class _UploadImgPlaceState extends State<UploadImgPlace> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Image Picker Example'),
-      ),
-      body: Center(
-        child: _image == null
-            ? Text('No image selected.')
-            : Image.file(_image),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: getImage,
-        tooltip: 'Pick Image',
-        child: Icon(Icons.add_a_photo),
+    return Container(
+      width: 200.0,
+      height: 200.0,
+      color: Colors.white,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Center(
+            child: _image == null
+              ? Text('请上传收款二维码')
+              : Image.file(_image),
+          ),
+          FlatButton(
+            onPressed: getImage,
+            child: Icon(Icons.add),
+          )
+        ],
       ),
     );
   }

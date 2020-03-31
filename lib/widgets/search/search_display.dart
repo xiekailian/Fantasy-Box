@@ -1,3 +1,4 @@
+import 'package:fantasy_box/widgets/common/contentItemsBuilder.dart';
 import 'package:flutter/material.dart';
 import '../../mock/home_mock.dart';
 
@@ -48,7 +49,7 @@ class SearchDisplayState extends State<SearchDisplay> with SingleTickerProviderS
                       children: <Widget>[
                         Wrap(
                           alignment: WrapAlignment.spaceAround,
-                          children: _buildContentItems(e['content']),
+                          children: buildContentItems(context,e['content']),
                         )
                       ],
                     ),
@@ -60,45 +61,5 @@ class SearchDisplayState extends State<SearchDisplay> with SingleTickerProviderS
         ],
       )
     );
-  }
-
-  List<Widget> _buildContentItems(List contentNames){
-    List<Widget> contentItems = [];
-    for (var item in contentNames) {
-      contentItems.add(
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-          child: FlatButton(
-            padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  Image(
-                    width: 200.0,
-                    image: NetworkImage(item['imgUrl'])
-                  ),
-                  Text(item['name'])
-                ],
-              ),
-            ),
-            onPressed: () {
-              //导航到新路由
-              // Navigator.push( context,
-              //   MaterialPageRoute(builder: (context) {
-              //     return HomeSwiper();
-              // }));
-            }, 
-          ),
-        )
-      );
-    }
-    for(int i = 0;i<6;i++)
-    contentItems.add(
-      Container(
-        height: 0,
-        width: 240.0,
-      )
-    );
-    return contentItems;
   }
 }

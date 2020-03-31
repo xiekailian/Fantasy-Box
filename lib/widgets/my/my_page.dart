@@ -30,11 +30,6 @@ class _MyPageState extends State<MyPage> {
           )
         ],
       ), 
-      floatingActionButton: FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:fantasy_box/widgets/common/contentItemsBuilder.dart';
 import 'package:flutter/material.dart';
 import '../../mock/home_mock.dart';
 import '../../const/my_page_const.dart';
@@ -26,7 +27,7 @@ class BodyPlaceState extends State<BodyPlace> with SingleTickerProviderStateMixi
       // height: 100.0,
       // width: 100.0,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        // mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
             color: Colors.lightBlue,
@@ -42,19 +43,30 @@ class BodyPlaceState extends State<BodyPlace> with SingleTickerProviderStateMixi
               child: TabBarView(
                 controller: _tabController,
                 children: myPageTabNames.map((e) {
-                  return Container(
-                    // alignment: Alignment.center,
-                    // height: 100.0,
-                    // width: 100.0,
-                    child: ListView(
-                      children: <Widget>[
-                        Wrap(
-                          alignment: WrapAlignment.spaceAround,
-                          children: _buildContentItems(),
-                        )
-                      ],
-                    ),
-                  );
+                  if(e == '主页'){
+                    return Container(
+                      child: ListView(
+                        children: <Widget>[
+                          Wrap(
+                            // alignment: WrapAlignment.spaceAround,
+                            children: _buildContentItems(),
+                          )
+                        ],
+                      ),
+                    );
+                  }else if(e == '收藏集'){
+                    return Container(
+                      child: ListView(
+                        children: <Widget>[
+                          Wrap(
+                            // alignment: WrapAlignment.spaceAround,
+                            children: buildContentItems(context,typeList[0]['content']),
+                          )
+                        ],
+                      ),
+                    );
+                  }
+                  
                 }).toList(),
               ),
             ),
@@ -66,13 +78,7 @@ class BodyPlaceState extends State<BodyPlace> with SingleTickerProviderStateMixi
 
   List<Widget> _buildContentItems(){
     List<Widget> contentItems = [];
-    contentItems.add(
-      Container(
-        width: 200.0,
-        height: 200.0,
-        child: UploadImgPlace(),
-      )
-    );
+    contentItems.add(UploadImgPlace());
     return contentItems;
   }
 }
