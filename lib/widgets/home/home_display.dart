@@ -29,16 +29,16 @@ class HomeDisplayState extends State<HomeDisplay> with SingleTickerProviderState
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            color: Colors.lightBlue,
+            color: Colors.white,
             child: TabBar(   //生成Tab菜单
-              indicatorColor: Colors.white,
+              indicatorColor: Colors.yellow,
               controller: _tabController,
               tabs: typeList.map((e) => Tab(text: e['name'])).toList()
             ),
           ),
           Container(
             height: 400.0,
-            color: Colors.lightBlue[50],
+            color: Colors.white,
             child: TabBarView(
               controller: _tabController,
               children: typeList.map((e) { //创建3个Tab页

@@ -6,7 +6,7 @@ List<Widget> buildContentItems(BuildContext context,List contentNames){
     for (var item in contentNames) {
       contentItems.add(
         Container(
-          width: 200.0,
+          width: 240.0,
           padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
           child: FlatButton(
             padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
