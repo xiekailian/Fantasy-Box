@@ -88,63 +88,175 @@ class DetailState extends State<Detail> {
       appBar: new AppBar(
         title: new Text('Product Detail'),
       ),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Container(
-              child: new TextField(
-                controller: titleController,
-                decoration: new InputDecoration(
-                  hintText: 'Sample Product 1',
-                ),
-              ),
-            ),
-            Expanded(
-              child: _buildDescription(),
-            ),
-            Container(
-              child: new RaisedButton(
-                color: Colors.lightBlue,
-                textColor: Colors.white,
-                onPressed: () {
-                  upload();
-                },
-                child: new Text(
-                    '发布',
-                    style: TextStyle(fontSize: 20),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: _buildDescription(),
     );
   }
 
   Widget _buildDescription() {
+    var readonly = true; //TODO 访问后端查询是否有权限修改
+    if(readonly){
+      return _buildReadonlyDescription();
+    }else{
+      return _buildEditableDescription();
+    }
+  }
+
+  Widget _buildReadonlyDescription() {
     return Container(
       child: Row(
         children: <Widget>[
-          Expanded(
-            child: new TextField(
-              maxLines: 100,
-              controller: descriptionController,
-              decoration: new InputDecoration(
-                hintText: 'The description of your product ...',
-              ),
-              onChanged: (val) {
-                this.setState(() {
-                  _markdownData = val;
-                });
-              },
-            ),
-          ),
+          //只读Markdown控件
           Expanded(
             child: new Markdown(
               controller: controller,
               selectable: true,
               data: _markdownData,
               imageDirectory: 'https://raw.githubusercontent.com',
+            ),
+          ),
+          //侧边栏
+          _buildSideBar(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSideBar() {
+    return Container(
+      margin: const EdgeInsets.only(top: 10.0),
+      child: Column(
+        children: <Widget>[
+          //订阅和关注栏
+          _buildActionRow(),
+          //打赏二维码
+          _buildRewordPanel(),
+          //tag列表展示
+          _buildTagsList(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionRow() {
+    return Row(
+      children: <Widget>[
+        Container(
+          margin: const EdgeInsets.only(left: 8.0,right: 8.0),
+          child: RaisedButton(
+            color: Colors.lightBlue,
+            textColor: Colors.white,
+            onPressed: () {
+              //TODO
+            },
+            child: new Text(
+              '订阅',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 8.0,right: 8.0),
+          child: RaisedButton(
+            color: Colors.lightBlue,
+            textColor: Colors.white,
+            onPressed: () {
+              //TODO
+            },
+            child: new Text(
+              '关注',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRewordPanel() {
+    const rewordQRCodeUrl = 'http://via.placeholder.com/350x150'; //TODO 打赏二维码
+    return Container(
+      margin: const EdgeInsets.only(top: 20.0,bottom: 20.0),
+      child: Column(
+        children: <Widget>[
+          Text('打赏作者'),
+          Image(
+            width: 250.0,
+            image: NetworkImage(rewordQRCodeUrl),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTagsList() {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          //TODO 获取tag列表
+          Text('tag1'),
+          Text('tag2'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEditableDescription() {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: Column(
+        children: <Widget>[
+          //标题栏
+          Container(
+            child: new TextField(
+              controller: titleController,
+              decoration: new InputDecoration(
+                hintText: 'Sample Product 1',
+              ),
+            ),
+          ),
+          //markdowm输入控件
+          Expanded(
+            child: Container(
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: new TextField(
+                      maxLines: 100,
+                      controller: descriptionController,
+                      decoration: new InputDecoration(
+                        hintText: 'The description of your product ...',
+                      ),
+                      onChanged: (val) {
+                        this.setState(() {
+                          _markdownData = val;
+                        });
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: new Markdown(
+                      controller: controller,
+                      selectable: true,
+                      data: _markdownData,
+                      imageDirectory: 'https://raw.githubusercontent.com',
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ),
+          //发布按钮
+          Container(
+            child: new RaisedButton(
+              color: Colors.lightBlue,
+              textColor: Colors.white,
+              onPressed: () {
+                upload();
+              },
+              child: new Text(
+                '发布',
+                style: TextStyle(fontSize: 20),
+              ),
             ),
           ),
         ],
