@@ -1,3 +1,4 @@
+import 'package:fantasy_box/widgets/login/login_page.dart';
 import 'package:flutter/material.dart';
 import '../search/search_page.dart';
 import '../product/detail.dart';
@@ -32,9 +33,13 @@ navigatorBar(BuildContext context, {String title='Fantasy Box', VoidCallback onP
             backgroundImage: NetworkImage('http://via.placeholder.com/350x150'),
           ),
           onPointerUp: (PointerUpEvent event){
+            // Navigator.push( context,
+            //   MaterialPageRoute(builder: (context) {
+            //     return MyPage();
+            // }));
             Navigator.push( context,
               MaterialPageRoute(builder: (context) {
-                return MyPage();
+                return LoginPage();
             }));
           },
         ),

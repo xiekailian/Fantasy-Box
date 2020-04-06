@@ -6,7 +6,7 @@ class ColorTransition extends StatelessWidget {
   final Widget child;
   final Animation<Color> animation1;
   final Animation<Color> animation2;
-  AnimationController controller;
+  final AnimationController controller;
 
   Widget build(BuildContext context) {
     return new Center(
