@@ -105,8 +105,6 @@ class HomeDisplayState extends State<HomeDisplay> with TickerProviderStateMixin 
               product = snapshot.data;
               productList = product.data;
               _tabController = TabController(length: productList.length, vsync: this);
-              print(productList);
-              print(productList[0]);
               productList.forEach((element) {
                 if(element['content']==null){
                   element['content'] = [];
@@ -134,7 +132,6 @@ class HomeDisplayState extends State<HomeDisplay> with TickerProviderStateMixin 
                     child: TabBarView(
                       controller: _tabController,
                       children: productList.map((e) { //创建4个Tab页
-                        print('------------------------render');
                         // print(json.decode(e['content']));
                         return Container(
                           // alignment: Alignment.center,
