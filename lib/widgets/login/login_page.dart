@@ -1,6 +1,8 @@
 import 'package:fantasy_box/controller/userController.dart';
 import 'package:fantasy_box/models/user.dart';
 import 'package:fantasy_box/util/dialog_util.dart';
+import 'package:fantasy_box/widgets/common/provider/changeNotifierProvider.dart';
+import 'package:fantasy_box/widgets/common/provider/userModel.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,9 +21,9 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     // 自动填充上次登录的用户名，填充后将焦点定位到密码输入框
     // _unameController.text = Global.profile.lastLogin;
-    if (_unameController.text != null) {
-      _nameAutoFocus = false;
-    }
+    // if (_unameController.text != null) {
+    //   _nameAutoFocus = false;
+    // }
     super.initState();
   }
 
@@ -95,9 +97,9 @@ class _LoginPageState extends State<LoginPage> {
       showLoading(context);
       User user;
       try {
-        user = await UserController(context).login(_unameController.text, _pwdController.text);
+        user = await UserController().login(_unameController.text, _pwdController.text);
         // 因为登录页返回后，首页会build，所以我们传false，更新user后不触发更新
-        // Provider.of<UserModel>(context, listen: false).user = user;
+        ChangeNotifierProvider.of<UserModel>(context, listen: false).user = user;
       } catch (e) {
         //登录失败则提示
         if (e.response?.statusCode == 401) {

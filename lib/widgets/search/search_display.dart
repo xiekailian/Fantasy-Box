@@ -1,4 +1,4 @@
-import 'package:fantasy_box/widgets/common/contentItemsBuilder.dart';
+import 'package:fantasy_box/widgets/common/itemsBuilder.dart';
 import 'package:flutter/material.dart';
 import '../../mock/home_mock.dart';
 

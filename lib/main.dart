@@ -1,30 +1,37 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:fantasy_box/widgets/common/global.dart';
+import 'package:fantasy_box/widgets/common/provider/ChangeNotifierProvider.dart';
+import 'package:fantasy_box/widgets/common/provider/userModel.dart';
+import 'package:fantasy_box/widgets/product/detail.dart';
+import 'package:flutter/material.dart';
 import 'widgets/home/home_swiper.dart';
 import 'widgets/home/user_release_bar.dart';
 import 'widgets/home/home_display.dart';
 import 'widgets/common/navigator_bar.dart';
 
-void main() => runApp(MyApp());
+void main() => Global.init().then((e) => runApp(MyApp()));
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fantasy Box',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.yellow,
+    return ChangeNotifierProvider<UserModel>(
+      data: UserModel(),
+      child: MaterialApp(
+        title: 'Fantasy Box',
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          primarySwatch: Colors.yellow,
+        ),
+        home: MyHomePage(title: 'Fantasy Box'),
       ),
-      home: MyHomePage(title: 'Fantasy Box'),
     );
   }
 }
@@ -80,12 +87,21 @@ class _MyHomePageState extends State<MyHomePage> {
       ), 
       
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Increment',
+        onPressed: _pushToProduct,
+        tooltip: '去发布',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-
+  
+  void _pushToProduct() {
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+        builder: (context) {
+          return new Detail();
+        },
+      ),
+    );
+  }
 }
 
