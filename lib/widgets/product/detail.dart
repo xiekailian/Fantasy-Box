@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
 import '../../flutter_markdown/flutter_markdown.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
-//import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 const String _sampleMarkdown = """
 # Description Example
@@ -73,6 +75,8 @@ String _title = 'Sample Product 1';
 String _markdownData = _sampleMarkdown;
 final TextEditingController titleController = new TextEditingController(text: _title);
 final TextEditingController descriptionController = new TextEditingController(text: _markdownData);
+Image cover;
+
 
 class Detail extends StatefulWidget {
   @override
@@ -217,36 +221,56 @@ class DetailState extends State<Detail> {
               ),
             ),
           ),
+          //封面选择
+          Container(
+            height: 100,
+            child: Row(
+                children: <Widget>[
+                  new RaisedButton(
+                    color: Colors.lightBlue,
+                    textColor: Colors.white,
+                    onPressed: () async {
+                      final _image = await FlutterWebImagePicker.getImage;
+                      setState(() {
+                        cover = _image;
+                      });
+                    },
+                    child: Icon(Icons.open_in_browser),
+                  ),
+                  Center(child: cover != null ? cover : Text('...')),
+                ]
+            ),
+          ),
           //markdowm输入控件
           Expanded(
-            child: Container(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: new TextField(
-                      maxLines: 100,
-                      controller: descriptionController,
-                      decoration: new InputDecoration(
-                        hintText: 'The description of your product ...',
+              child: Container(
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: new TextField(
+                        maxLines: 100,
+                        controller: descriptionController,
+                        decoration: new InputDecoration(
+                          hintText: 'The description of your product ...',
+                        ),
+                        onChanged: (val) {
+                          this.setState(() {
+                            _markdownData = val;
+                          });
+                        },
                       ),
-                      onChanged: (val) {
-                        this.setState(() {
-                          _markdownData = val;
-                        });
-                      },
                     ),
-                  ),
-                  Expanded(
-                    child: new Markdown(
-                      controller: controller,
-                      selectable: true,
-                      data: _markdownData,
-                      imageDirectory: 'https://raw.githubusercontent.com',
+                    Expanded(
+                      child: new Markdown(
+                        controller: controller,
+                        selectable: true,
+                        data: _markdownData,
+                        imageDirectory: 'https://raw.githubusercontent.com',
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            )
+                  ],
+                ),
+              )
           ),
           //发布按钮
           Container(
@@ -270,11 +294,13 @@ class DetailState extends State<Detail> {
   void upload() async {
 //    File file = await FilePicker.getFile();
 //    print(file.path);
+
+    //Dio 文档参考https://github.com/flutterchina/dio/blob/master/README-ZH.md
     print("uploading");
     FormData formData = new FormData.fromMap({
       "title": titleController.text,
       "description": descriptionController.text,
-//      "file": await MultipartFile.fromFile("./a.txt",filename: "a.txt"),
+      "file": await MultipartFile.fromFile("./a.txt",filename: "a.txt"),
     });
     print("post");
     Dio dio = Dio(BaseOptions(
