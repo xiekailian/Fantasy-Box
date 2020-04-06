@@ -84,16 +84,20 @@ class DetailState extends State<Detail> {
 
   @override
   Widget build(BuildContext context) {
+    var readonly = false; //TODO 访问后端查询是否有权限修改
+    var appBarTitle = readonly?'作品详情':_title;
     return new Scaffold (
       appBar: new AppBar(
-        title: new Text('Product Detail'),
+        title: new Text(appBarTitle),
       ),
-      body: _buildDescription(),
+      body: Container(
+        margin: const EdgeInsets.all(8.0),
+        child: _buildDescription(readonly),
+      ),
     );
   }
 
-  Widget _buildDescription() {
-    var readonly = true; //TODO 访问后端查询是否有权限修改
+  Widget _buildDescription(bool readonly) {
     if(readonly){
       return _buildReadonlyDescription();
     }else{
@@ -202,7 +206,6 @@ class DetailState extends State<Detail> {
 
   Widget _buildEditableDescription() {
     return Container(
-      margin: const EdgeInsets.all(10),
       child: Column(
         children: <Widget>[
           //标题栏
@@ -271,11 +274,12 @@ class DetailState extends State<Detail> {
     FormData formData = new FormData.fromMap({
       "title": titleController.text,
       "description": descriptionController.text,
-      "file": await MultipartFile.fromFile("./a.txt",filename: "a.txt"),
+//      "file": await MultipartFile.fromFile("./a.txt",filename: "a.txt"),
     });
     print("post");
     Dio dio = Dio(BaseOptions(
-      baseUrl: "http://172.19.240.145:8081",
+//      baseUrl: "http://172.19.240.145:8081",
+      baseUrl: "http://localhost:8080",
       connectTimeout: 5000,
       receiveTimeout: 10000,
       // 5s
@@ -289,7 +293,7 @@ class DetailState extends State<Detail> {
       responseType: ResponseType.json,
     ));
     try {
-      Response response = await dio.post("/api", data: formData,
+      Response response = await dio.post("/api/product/post-product", data: formData,
         onSendProgress: (int sent, int total) {
           print("$sent/$total");
         },);
