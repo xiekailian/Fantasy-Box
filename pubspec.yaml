@@ -73,6 +73,7 @@ flutter:
    - images/swiper2.jpg
    - images/swiper3.jpg
    - images/bg.jpeg
+   - images/bg1.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
