@@ -21,7 +21,7 @@ class UserReleaseBarState extends State<UserReleaseBar> with SingleTickerProvide
     animationController = new AnimationController(
         duration: const Duration(seconds: 3), vsync: this);
     //颜色渐变动画
-    animation1 = new ColorTween(begin: Colors.yellow[300], end: Colors.orange[700]).animate(animationController)
+    animation1 = new ColorTween(begin: Colors.yellow[100], end: Colors.orange[800]).animate(animationController)
     ..addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         //动画执行结束时反向执行动画
@@ -31,7 +31,7 @@ class UserReleaseBarState extends State<UserReleaseBar> with SingleTickerProvide
         animationController.forward();
       }
     });
-    animation2 = new ColorTween(begin: Colors.orange[700], end: Colors.yellow[300]).animate(animationController)
+    animation2 = new ColorTween(begin: Colors.orange[800], end: Colors.yellow[100]).animate(animationController)
     ..addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         //动画执行结束时反向执行动画
