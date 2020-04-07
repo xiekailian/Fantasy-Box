@@ -81,6 +81,16 @@ Image cover;
 class Detail extends StatefulWidget {
   @override
   createState() => new DetailState();
+
+  Detail({
+    Key key,
+    this.readonly = false,
+    this.id,
+  }): assert(!readonly || id!=null),//浏览别人的产品：readonly=true，修改自己的产品：readonly=false，发布产品：readonly=false, id=null
+        super(key:key);
+
+  final bool readonly; //用户是否可用修改
+  final String id; //目标产品的id
 }
 
 class DetailState extends State<Detail> {
@@ -88,15 +98,14 @@ class DetailState extends State<Detail> {
 
   @override
   Widget build(BuildContext context) {
-    var readonly = false; //TODO 访问后端查询是否有权限修改
-    var appBarTitle = readonly?'作品详情':_title;
+    var appBarTitle = widget.readonly?'作品详情':_title;
     return new Scaffold (
       appBar: new AppBar(
         title: new Text(appBarTitle),
       ),
       body: Container(
         margin: const EdgeInsets.all(8.0),
-        child: _buildDescription(readonly),
+        child: _buildDescription(widget.readonly),
       ),
     );
   }

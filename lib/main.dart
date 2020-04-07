@@ -98,7 +98,9 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).push(
       new MaterialPageRoute(
         builder: (context) {
-          return new Detail();
+          return new Detail(
+            readonly: false,
+          );
         },
       ),
     );
