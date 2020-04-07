@@ -1,5 +1,5 @@
 ﻿import 'package:fantasy_box/widgets/common/global.dart';
-import 'package:fantasy_box/widgets/common/provider/ChangeNotifierProvider.dart';
+import 'package:fantasy_box/widgets/common/provider/changeNotifierProvider.dart';
 import 'package:fantasy_box/widgets/common/provider/userModel.dart';
 import 'package:fantasy_box/widgets/product/detail.dart';
 import 'package:flutter/material.dart';
