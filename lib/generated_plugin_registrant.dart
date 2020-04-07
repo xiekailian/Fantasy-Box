@@ -1,8 +1,6 @@
 //
 // Generated file. Do not edit.
 //
-
-// ignore: unused_import
 import 'dart:ui';
 
 import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';

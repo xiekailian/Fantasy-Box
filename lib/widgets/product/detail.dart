@@ -1,10 +1,15 @@
+import 'package:fantasy_box/flutter_markdown/flutter_markdown.dart';
+import 'package:fantasy_box/widgets/common/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
-import '../../flutter_markdown/flutter_markdown.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'dart:html' as html;
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+
 
 const String _sampleMarkdown = """
 # Description Example
@@ -76,6 +81,7 @@ String _markdownData = _sampleMarkdown;
 final TextEditingController titleController = new TextEditingController(text: _title);
 final TextEditingController descriptionController = new TextEditingController(text: _markdownData);
 Image cover;
+WebFilePicker filePicker = new WebFilePicker();
 
 
 class Detail extends StatefulWidget {
@@ -247,6 +253,14 @@ class DetailState extends State<Detail> {
                     child: Icon(Icons.open_in_browser),
                   ),
                   Center(child: cover != null ? cover : Text('...')),
+                  new RaisedButton(
+                    color: Colors.lightBlue,
+                    textColor: Colors.white,
+                    onPressed: () async {
+                      final Map<String, dynamic> data = await filePicker.pickFile();
+                    },
+                    child: Icon(Icons.open_in_browser),
+                  ),
                 ]
             ),
           ),
@@ -301,15 +315,19 @@ class DetailState extends State<Detail> {
   }
 
   void upload() async {
-//    File file = await FilePicker.getFile();
-//    print(file.path);
-
     //Dio 文档参考https://github.com/flutterchina/dio/blob/master/README-ZH.md
     print("uploading");
+    final bytes = await filePicker.readAsArrayBuffer();
+    if(bytes==null){
+      //TODO 提示用户还没上传文件
+      return;
+    }
     FormData formData = new FormData.fromMap({
       "title": titleController.text,
       "description": descriptionController.text,
-      "file": await MultipartFile.fromFile("./a.txt",filename: "a.txt"),
+      "file": await MultipartFile.fromBytes(bytes,filename: filePicker.fileData["name"],contentType: MediaType('application', 'octet-stream')),
+      "cover": await MultipartFile.fromBytes(bytes,filename: filePicker.fileData["name"],contentType: MediaType('application', 'octet-stream')),
+      "tags": "tag1,tag2",
     });
     print("post");
     Dio dio = Dio(BaseOptions(
