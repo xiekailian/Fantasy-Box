@@ -20,6 +20,7 @@ class ProductController {
   Future<Product> search({String keywords = ''}) async {
     var r = await dio.get(
       "/api/product/search",
+      queryParameters:{"keywords":keywords}
     );
     print(r.data);
     return Product.fromJson(r.data);

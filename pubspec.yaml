@@ -67,6 +67,10 @@ flutter:
   #  - images/a_dot_ham.jpeg
   assets:
    - images/placeholder.jpg
+   - images/swiper1.jpg
+   - images/swiper2.jpg
+   - images/swiper3.jpg
+   - images/bg.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

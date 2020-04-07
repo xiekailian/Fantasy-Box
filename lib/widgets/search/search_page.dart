@@ -4,6 +4,9 @@ import './search_display.dart';
 
 class SearchPage extends StatefulWidget {
 
+  List productContentList;
+  SearchPage(this.productContentList);
+
   @override
   _SearchPageState createState() => _SearchPageState();
 }
@@ -21,7 +24,8 @@ class _SearchPageState extends State<SearchPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: navigatorBar(context,title: 'Search Products'),
-      body:SearchDisplay(), 
+      // body:Text(widget.productList.toString()), 
+      body:SearchDisplay(widget.productContentList),
       floatingActionButton: FloatingActionButton(
         onPressed: null,
         tooltip: 'Increment',

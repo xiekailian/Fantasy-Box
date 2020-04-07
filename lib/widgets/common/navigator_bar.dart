@@ -1,3 +1,5 @@
+import 'package:fantasy_box/controller/productController.dart';
+import 'package:fantasy_box/models/index.dart';
 import 'package:fantasy_box/widgets/common/provider/changeNotifierProvider.dart';
 import 'package:fantasy_box/widgets/common/provider/userModel.dart';
 import 'package:fantasy_box/widgets/login/login_page.dart';
@@ -8,11 +10,15 @@ import '../my/my_page.dart';
 
 TextEditingController searchController = TextEditingController();
 navigatorBar(BuildContext context, {String title='Fantasy Box', VoidCallback onPressed}){
-  void _search([String str]) {
-    print(searchController.text);
+  Product product;
+  List productContentList;
+  Future<void> _search([String str]) async {
+    product = await ProductController().search(keywords: searchController.text);
+    productContentList = product.data;
+    print(productContentList);
     Navigator.push( context,
       MaterialPageRoute(builder: (context) {
-        return SearchPage();
+        return SearchPage(productContentList);
     }));
   }
 

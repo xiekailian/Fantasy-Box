@@ -31,7 +31,7 @@ List<Widget> buildContentItems(BuildContext context,List contentNames){
                         ),
                         onPressed: null
                       ),
-                      Text(item['name'])
+                      Text(item['username'])
                     ],
                   ),
                 ),

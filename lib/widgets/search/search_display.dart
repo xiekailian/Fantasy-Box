@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 import '../../mock/home_mock.dart';
 
 class SearchDisplay extends StatefulWidget {
+  List productContentList;
+
+  SearchDisplay(this.productContentList){
+    print('xxxxxxxx');
+    print(productContentList);
+  }
+
   @override
   SearchDisplayState createState() {
     return SearchDisplayState();
@@ -10,54 +17,24 @@ class SearchDisplay extends StatefulWidget {
 }
 
 class SearchDisplayState extends State<SearchDisplay> with SingleTickerProviderStateMixin {
-  TabController _tabController;
-  // List typeList = [];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: typeList.length, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      // alignment: Alignment.center,
       // height: 100.0,
       // width: 100.0,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: ListView(
         children: <Widget>[
-          Container(
-            color: Colors.lightBlue,
-            child: TabBar(   //生成Tab菜单
-              indicatorColor: Colors.white,
-              controller: _tabController,
-              tabs: typeList.map((e) => Tab(text: e['name'])).toList()
-            ),
-          ),
-          Expanded(
-            child: Container(
-              color: Colors.lightBlue[50],
-              child: TabBarView(
-                controller: _tabController,
-                children: typeList.map((e) { //创建3个Tab页
-                  return Container(
-                    // alignment: Alignment.center,
-                    // height: 100.0,
-                    // width: 100.0,
-                    child: ListView(
-                      children: <Widget>[
-                        Wrap(
-                          alignment: WrapAlignment.spaceAround,
-                          children: buildContentItems(context,e['content']),
-                        )
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
+          Wrap(
+            alignment: WrapAlignment.spaceAround,
+            children: buildContentItems(context,widget.productContentList),
+          )
         ],
       )
     );

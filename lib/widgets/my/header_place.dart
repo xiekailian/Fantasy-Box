@@ -12,13 +12,17 @@ class HeaderPlace extends StatefulWidget {
 
 class HeaderPlaceState extends State<HeaderPlace> with SingleTickerProviderStateMixin {
 
+  String avatarUrl;
+
   @override
   Widget build(BuildContext context) {
+    avatarUrl = ChangeNotifierProvider.of<UserModel>(context).user.avatarUrl;
+    print(avatarUrl);
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 200.0,
       decoration: BoxDecoration(
-        image: DecorationImage(image: NetworkImage("http://via.placeholder.com/350x150"),fit: BoxFit.fill)
+        image: DecorationImage(image: AssetImage("images/swiper1.jpg"),fit: BoxFit.fill)
       ),
       //头像和昵称区域
       child: Stack(
@@ -32,8 +36,11 @@ class HeaderPlaceState extends State<HeaderPlace> with SingleTickerProviderState
                 height: 80.0,
                 width: 80.0,
                 decoration: BoxDecoration(
-                  image: DecorationImage(image: NetworkImage(ChangeNotifierProvider.of<UserModel>(context).user.avatarUrl),
-                    fit: BoxFit.fill),
+                  image: DecorationImage(
+                    image: NetworkImage(avatarUrl==null?'images/placeholder.jpg':avatarUrl),
+                    fit: BoxFit.fill
+                  ),
+
                   border: new Border.all(color: ColorsUtil.hexColor(0xffffff,opacity: 0.3), width: 3),
                   borderRadius: new BorderRadius.all(Radius.circular(40.0)),
                 ),

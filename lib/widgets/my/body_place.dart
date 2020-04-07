@@ -1,4 +1,4 @@
-import 'package:fantasy_box/widgets/common/itemsBuilder.dart';
+import '../common/itemsBuilder.dart';
 import 'package:flutter/material.dart';
 import '../../mock/home_mock.dart';
 import '../../const/my_page_const.dart';
@@ -30,16 +30,16 @@ class BodyPlaceState extends State<BodyPlace> with SingleTickerProviderStateMixi
         // mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            color: Colors.lightBlue,
+            color: Colors.white,
             child: TabBar(   //生成Tab菜单
-              indicatorColor: Colors.white,
+              indicatorColor: Colors.yellow,
               controller: _tabController,
               tabs: myPageTabNames.map((e) => Tab(text: e)).toList()
             ),
           ),
           Expanded(
             child: Container(
-              color: Colors.lightBlue[50],
+              color: Colors.white,
               child: TabBarView(
                 controller: _tabController,
                 children: myPageTabNames.map((e) {

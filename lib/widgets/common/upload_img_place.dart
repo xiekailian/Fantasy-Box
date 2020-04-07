@@ -26,7 +26,7 @@ class _UploadImgPlaceState extends State<UploadImgPlace> {
     return Container(
       width: 200.0,
       height: 200.0,
-      color: Colors.white,
+      color: Colors.yellow[400],
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

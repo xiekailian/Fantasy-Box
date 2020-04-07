@@ -30,9 +30,25 @@ class HomeSwiperState extends State<HomeSwiper> {
   }
 
   Widget _swiperBuilder(BuildContext context, int index) {
-    return (Image.network(
-      "http://via.placeholder.com/350x150",
-      fit: BoxFit.fill,
-    ));
+    switch (index) {
+      case 1:
+        return (Image.asset(
+          "images/swiper1.jpg",
+          // fit: BoxFit.fill,
+        ));
+        break;
+      case 2:
+        return (Image.asset(
+          "images/swiper2.jpg",
+          // fit: BoxFit.fill,
+        ));
+        break;
+      default:
+        return (Image.asset(
+          "images/swiper3.jpg",
+          // fit: BoxFit.fill,
+        ));
+    }
+    
   }
 }
