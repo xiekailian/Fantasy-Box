@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path/path.dart';
 
 showLoading(BuildContext context) {
   showDialog(
     context: context,
-    barrierDismissible: false, //点击遮罩不关闭对话框
+    barrierDismissible: true, //点击遮罩不关闭对话框
     builder: (context) {
       return AlertDialog(
         content: Column(
@@ -22,17 +23,14 @@ showLoading(BuildContext context) {
   );
 }
 
-void showToast(
-  String text, {
-  gravity: ToastGravity.CENTER,
-  toastLength: Toast.LENGTH_SHORT,
-}) {
-  Fluttertoast.showToast(
-    msg: text,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    timeInSecForIos: 1,
-    backgroundColor: Colors.grey[600], // 灰色背景
-    fontSize: 16.0,
+showToast(String text,BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: true, //点击遮罩不关闭对话框
+    builder: (context) {
+      return AlertDialog(
+        content: Text(text),
+      );
+    },
   );
 }

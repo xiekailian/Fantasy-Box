@@ -86,7 +86,7 @@ class HomeDisplayState extends State<HomeDisplay> with TickerProviderStateMixin 
       // });
     } catch (e) {
       //登录失败则提示
-      showToast(e.toString());
+      showToast(e.toString(),context);
     }
   }
 
