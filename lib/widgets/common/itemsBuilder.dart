@@ -1,4 +1,5 @@
 import 'package:fantasy_box/widgets/home/home_swiper.dart';
+import 'package:fantasy_box/widgets/product/detail.dart';
 import 'package:flutter/material.dart';
 
 List<Widget> buildContentItems(BuildContext context,List contentNames){
@@ -43,7 +44,7 @@ List<Widget> buildContentItems(BuildContext context,List contentNames){
             //导航到新路由
             Navigator.push( context,
               MaterialPageRoute(builder: (context) {
-                return HomeSwiper();
+                return new Detail(readonly: true, id: item["id"],);
             }));
           },
         ),

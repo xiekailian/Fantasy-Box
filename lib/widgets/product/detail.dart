@@ -1,4 +1,5 @@
 import 'package:fantasy_box/flutter_markdown/flutter_markdown.dart';
+import 'package:fantasy_box/util/dialog_util.dart';
 import 'package:fantasy_box/util/http_util.dart';
 import 'package:fantasy_box/widgets/common/web_file_picker.dart';
 import 'package:fantasy_box/widgets/common/web_image_picker.dart';
@@ -78,6 +79,8 @@ final TextEditingController descriptionController = new TextEditingController(te
 Image cover;
 WebFilePicker filePicker = new WebFilePicker();
 WebImagePicker imagePicker = new WebImagePicker();
+String uploadProgress = '';
+var _productData;
 
 
 class Detail extends StatefulWidget {
@@ -92,28 +95,52 @@ class Detail extends StatefulWidget {
         super(key:key);
 
   final bool readonly; //用户是否可用修改
-  final String id; //目标产品的id
+  final int id; //目标产品的id
 }
 
 class DetailState extends State<Detail> {
 //  final _contexts = <Context>[new Context()];
 
   @override
+  void initState() {
+    super.initState();
+    if(widget.id!=null){
+      getProductDetail();
+    }
+  }
+
+  void getProductDetail() async {
+    Dio dio = baseDio();
+    try {
+      Response response = await dio.get("/api/product/get-product", queryParameters: {"id": widget.id});
+      final data = response.data["data"];
+      setState(() {
+        _title = data["name"];
+        _markdownData = data["description"];
+        _productData = data;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var appBarTitle = widget.readonly?'作品详情':_title;
+//    var appBarTitle = widget.readonly?'作品详情':_title;
+    var appBarTitle = _title;
     return new Scaffold (
       appBar: new AppBar(
         title: new Text(appBarTitle),
       ),
       body: Container(
         margin: const EdgeInsets.all(8.0),
-        child: _buildDescription(widget.readonly),
+        child: _buildDescription(),
       ),
     );
   }
 
-  Widget _buildDescription(bool readonly) {
-    if(readonly){
+  Widget _buildDescription() {
+    if(widget.readonly){
       return _buildReadonlyDescription();
     }else{
       return _buildEditableDescription();
@@ -151,6 +178,8 @@ class DetailState extends State<Detail> {
           _buildRewordPanel(),
           //tag列表展示
           _buildTagsList(),
+          //作品文件下载栏
+          _buildDownloadPanel(),
         ],
       ),
     );
@@ -192,7 +221,7 @@ class DetailState extends State<Detail> {
   }
 
   Widget _buildRewordPanel() {
-    const rewordQRCodeUrl = 'http://via.placeholder.com/350x150'; //TODO 打赏二维码
+    final rewordQRCodeUrl = _productData==null?'http://via.placeholder.com/350x150':_productData["imgUrl"];
     return Container(
       margin: const EdgeInsets.only(top: 20.0,bottom: 20.0),
       child: Column(
@@ -208,12 +237,37 @@ class DetailState extends State<Detail> {
   }
 
   Widget _buildTagsList() {
+    List tagList = _productData==null? <String>['sample tag 1', 'sample tag 2']:_productData["tagList"];
     return Container(
+      margin: const EdgeInsets.only(top: 10.0,bottom: 10.0),
+      child: Column(
+        children: tagList.map((tag) {
+          return Text(tag);
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildDownloadPanel() {
+    final fileUrl = _productData==null?null:_productData["fileUrl"];
+    if(fileUrl==null){
+      return Container(
+        child: Text('加载中'),
+      );
+    }
+    return Container(
+      margin: const EdgeInsets.only(top: 20.0,bottom: 20.0),
       child: Column(
         children: <Widget>[
-          //TODO 获取tag列表
-          Text('tag1'),
-          Text('tag2'),
+          Text('点击下载'),
+          RaisedButton(
+            color: Colors.yellow[400],
+            textColor: Colors.white,
+            onPressed: () async {
+              download(fileUrl);
+            },
+            child: Icon(Icons.file_download),
+          ),
         ],
       ),
     );
@@ -234,28 +288,62 @@ class DetailState extends State<Detail> {
           ),
           //封面选择
           Container(
-            height: 100,
+            height: 150,
+            margin: const EdgeInsets.only(top: 10),
             child: Row(
                 children: <Widget>[
-                  new RaisedButton(
-                    color: Colors.lightBlue,
-                    textColor: Colors.white,
-                    onPressed: () async {
-                      final _image = await imagePicker.pickImage();
-                      setState(() {
-                        cover = _image;
-                      });
-                    },
-                    child: Icon(Icons.open_in_browser),
+                  Container(
+                    width: 150,
+                    height: 150,
+                    margin: const EdgeInsets.only(left: 10,right: 10),
+                    color: Colors.yellow[400],
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                          child: cover == null
+                              ? Text('上传封面')
+                              : Image(
+                            image: cover.image,
+                            fit: BoxFit.fill,
+                            width: 150,
+                            height: 100,
+                          ),
+                        ),
+                        FlatButton(
+                          onPressed: () async {
+                            final _image = await imagePicker.pickImage();
+                            setState(() {
+                              cover = _image;
+                            });
+                          },
+                          child: Icon(Icons.add),
+                        ),
+                      ],
+                    ),
                   ),
-                  Center(child: cover != null ? cover : Text('...')),
-                  new RaisedButton(
-                    color: Colors.lightBlue,
-                    textColor: Colors.white,
-                    onPressed: () async {
-                      final Map<String, dynamic> data = await filePicker.pickFile();
-                    },
-                    child: Icon(Icons.open_in_browser),
+                  Container(
+                    width: 150,
+                    margin: const EdgeInsets.only(left: 10,right: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                          child: filePicker.fileData == null
+                              ? Text('上传你的作品')
+                              : Text(filePicker.fileData["name"]),
+                        ),
+                        RaisedButton(
+                          color: Colors.yellow[400],
+                          textColor: Colors.white,
+                          onPressed: () async {
+                            final Map<String, dynamic> data = await filePicker.pickFile();
+                            setState(() {});
+                          },
+                          child: Icon(Icons.open_in_browser),
+                        ),
+                      ],
+                    ),
                   ),
                 ]
             ),
@@ -293,17 +381,30 @@ class DetailState extends State<Detail> {
           ),
           //发布按钮
           Container(
-            child: new RaisedButton(
-              color: Colors.lightBlue,
-              textColor: Colors.white,
-              onPressed: () {
-                upload();
-              },
-              child: new Text(
-                '发布',
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                uploadProgress==''? new RaisedButton(
+                  color: Colors.lightBlue,
+                  textColor: Colors.white,
+                  onPressed: () {
+                    upload();
+                  },
+                  child: new Text(
+                    '发布',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ): Container(
+                  height: 50,
+                  child: Container(
+                    child: new Text(
+                      uploadProgress,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                )
+              ],
+            )
           ),
         ],
       ),
@@ -316,11 +417,11 @@ class DetailState extends State<Detail> {
     final MultipartFile file = await filePicker.transferToMultipartFile();
     final MultipartFile coverFile = await imagePicker.transferToMultipartFile();
     if(coverFile==null){
-      //TODO 提示用户还没上传封面
+      showToast("还没上传封面");
       return;
     }
     if(file==null){
-      //TODO 提示用户还没上传文件
+      showToast("还没上传文件");
       return;
     }
     FormData formData = new FormData.fromMap({
@@ -328,16 +429,22 @@ class DetailState extends State<Detail> {
       "description": descriptionController.text,
       "file": file,
       "cover": coverFile,
-      "tags": "tag1,tag2",
+      "tags": "游戏，图片",
     });
     print("post");
     Dio dio = baseDio();
     try {
-      Response response = await dio.post("/api/product/post-product", data: formData,
+      Future<Response> postTask = dio.post("/api/product/post-product", data: formData,
         onSendProgress: (int sent, int total) {
           print("$sent/$total");
+          setState(() {
+            uploadProgress = "${sent/total*100}%";
+          });
         },);
-      print(response.data.toString());
+      postTask.then((response) {
+        print(response.data.toString());
+        showToast("发布成功");
+      });
     } on DioError catch (e) {
       print("error");
       // The request was made and the server responded with a status code
@@ -356,6 +463,17 @@ class DetailState extends State<Detail> {
       }
     }
   }
+
+  void download(String url) async {
+    Dio dio = Dio();
+    try {
+      Response response = await dio.get(url);
+      print(response.data);
+    } on DioError catch (e) {
+      print("error");
+    }
+  }
+
 //
 //  Widget _buildView() {
 //    return new ListView.builder(
