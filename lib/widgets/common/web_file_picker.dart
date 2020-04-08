@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:html' as html;
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 
 class WebFilePicker {
   Map<String, dynamic> fileData;
@@ -12,11 +14,10 @@ class WebFilePicker {
   ///    "data": file, //dart:html中的File对象，文件对象
   ///    "path": "", //文件的相对路径，目前还获取不到
   ///  }
-  Future<Map<String, dynamic>> pickFile() async {
-    print('pickFile');
+  Future<Map<String, dynamic>> pickFile({String accept = '*'}) async {
     final Map<String, dynamic> data = {};
     final html.FileUploadInputElement input = html.FileUploadInputElement();
-    input..accept = '*';
+    input..accept = accept;
     input.click();
     await input.onChange.first;
     if (input.files.isEmpty) return null;
@@ -38,5 +39,13 @@ class WebFilePicker {
     await reader.onLoad.first;
     final bytes = reader.result as List<int>;
     return bytes;
+  }
+
+  Future<MultipartFile> transferToMultipartFile() async {
+    final bytes = await readAsArrayBuffer();
+    if(bytes==null){
+      return null;
+    }
+    return await MultipartFile.fromBytes(bytes,filename: fileData["name"],contentType: MediaType('multipart', 'form-data'));
   }
 }

@@ -1,14 +1,9 @@
 import 'package:fantasy_box/flutter_markdown/flutter_markdown.dart';
-import 'package:fantasy_box/widgets/common/file_picker.dart';
+import 'package:fantasy_box/util/http_util.dart';
+import 'package:fantasy_box/widgets/common/web_file_picker.dart';
+import 'package:fantasy_box/widgets/common/web_image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
 import 'package:dio/dio.dart';
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'dart:html' as html;
-import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 
 
 const String _sampleMarkdown = """
@@ -82,6 +77,7 @@ final TextEditingController titleController = new TextEditingController(text: _t
 final TextEditingController descriptionController = new TextEditingController(text: _markdownData);
 Image cover;
 WebFilePicker filePicker = new WebFilePicker();
+WebImagePicker imagePicker = new WebImagePicker();
 
 
 class Detail extends StatefulWidget {
@@ -245,7 +241,7 @@ class DetailState extends State<Detail> {
                     color: Colors.lightBlue,
                     textColor: Colors.white,
                     onPressed: () async {
-                      final _image = await FlutterWebImagePicker.getImage;
+                      final _image = await imagePicker.pickImage();
                       setState(() {
                         cover = _image;
                       });
@@ -317,34 +313,25 @@ class DetailState extends State<Detail> {
   void upload() async {
     //Dio 文档参考https://github.com/flutterchina/dio/blob/master/README-ZH.md
     print("uploading");
-    final bytes = await filePicker.readAsArrayBuffer();
-    if(bytes==null){
+    final MultipartFile file = await filePicker.transferToMultipartFile();
+    final MultipartFile coverFile = await imagePicker.transferToMultipartFile();
+    if(coverFile==null){
+      //TODO 提示用户还没上传封面
+      return;
+    }
+    if(file==null){
       //TODO 提示用户还没上传文件
       return;
     }
     FormData formData = new FormData.fromMap({
       "title": titleController.text,
       "description": descriptionController.text,
-      "file": await MultipartFile.fromBytes(bytes,filename: filePicker.fileData["name"],contentType: MediaType('application', 'octet-stream')),
-      "cover": await MultipartFile.fromBytes(bytes,filename: filePicker.fileData["name"],contentType: MediaType('application', 'octet-stream')),
+      "file": file,
+      "cover": coverFile,
       "tags": "tag1,tag2",
     });
     print("post");
-    Dio dio = Dio(BaseOptions(
-//      baseUrl: "http://172.19.240.145:8081",
-      baseUrl: "http://localhost:8080",
-      connectTimeout: 5000,
-      receiveTimeout: 10000,
-      // 5s
-      headers: {
-        HttpHeaders.userAgentHeader: "dio",
-        "api": "1.0.0",
-      },
-      contentType: Headers.jsonContentType,
-      // Transform the response data to a String encoded with UTF8.
-      // The default value is [ResponseType.JSON].
-      responseType: ResponseType.json,
-    ));
+    Dio dio = baseDio();
     try {
       Response response = await dio.post("/api/product/post-product", data: formData,
         onSendProgress: (int sent, int total) {
