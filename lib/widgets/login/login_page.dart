@@ -101,11 +101,10 @@ class _LoginPageState extends State<LoginPage> {
         // 因为登录页返回后，首页会build，所以我们传false，更新user后不触发更新
         ChangeNotifierProvider.of<UserModel>(context, listen: false).user = user;
       } catch (e) {
-        //登录失败则提示
         if (e.response?.statusCode == 401) {
-          showToast('用户名或密码错误');
+          showToast('用户名或密码错误',context);
         } else {
-          showToast(e.toString());
+          showToast(e.toString(),context);
         }
       } finally {
         // 隐藏loading框
@@ -114,6 +113,9 @@ class _LoginPageState extends State<LoginPage> {
       if (user != null) {
         // 返回
         Navigator.of(context).pop();
+      }else{
+        print('用户名或密码错误');
+        showToast('用户名或密码错误',context);
       }
     }
   }

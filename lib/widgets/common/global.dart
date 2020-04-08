@@ -11,6 +11,9 @@ const _themes = <MaterialColor>[
   Colors.red,
 ];
 
+// const String baseUrl = 'http://172.19.240.145:8081';
+const String _baseUrl = 'http://localhost:8080';
+
 class Global {
   static SharedPreferences _prefs;
   static Profile profile = Profile();
@@ -19,6 +22,9 @@ class Global {
 
   // 可选的主题列表
   static List<MaterialColor> get themes => _themes;
+
+  //服务器地址
+  static String get baseUrl => _baseUrl;
 
   // 是否为release版
   static bool get isRelease => bool.fromEnvironment("dart.vm.product");

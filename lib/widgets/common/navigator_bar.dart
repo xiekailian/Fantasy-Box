@@ -12,6 +12,7 @@ TextEditingController searchController = TextEditingController();
 navigatorBar(BuildContext context, {String title='Fantasy Box', VoidCallback onPressed}){
   Product product;
   List productContentList;
+  User user = ChangeNotifierProvider.of<UserModel>(context).user;
   Future<void> _search([String str]) async {
     product = await ProductController().search(keywords: searchController.text);
     productContentList = product.data;
@@ -38,7 +39,7 @@ navigatorBar(BuildContext context, {String title='Fantasy Box', VoidCallback onP
         padding: EdgeInsets.symmetric(vertical: 8.0,horizontal: 10.0),
         child: Listener(
           child: CircleAvatar(
-            backgroundImage: NetworkImage('http://via.placeholder.com/350x150'),
+            backgroundImage: NetworkImage(user!=null?user.avatarUrl:'http://via.placeholder.com/350x150'),
           ),
           onPointerUp: (PointerUpEvent event){
             if(ChangeNotifierProvider.of<UserModel>(context).isLogin){

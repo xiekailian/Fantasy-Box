@@ -28,7 +28,7 @@ List<Widget> buildContentItems(BuildContext context,List contentNames){
                     children: <Widget>[
                       new IconButton(
                         icon: CircleAvatar(
-                          backgroundImage: NetworkImage('http://via.placeholder.com/350x150'),
+                          backgroundImage: NetworkImage(item['userAvatar']!=null?item['userAvatar']:item['imgUrl']),
                         ),
                         onPressed: null
                       ),
