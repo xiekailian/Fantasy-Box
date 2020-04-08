@@ -18,6 +18,25 @@ class _UploadImgPlaceState extends State<UploadImgPlace> {
   WebImagePicker imagePicker = new WebImagePicker();
 
   @override
+  void initState() {
+    super.initState();
+    getQRCode();
+  }
+
+  void getQRCode() async {
+    Dio dio = baseDio();
+    try {
+      Response response = await dio.get("/api/user/get-my-qr-code");
+      final url = response.data["data"];
+      setState(() {
+        _image = Image.network(url);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: 200.0,

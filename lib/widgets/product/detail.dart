@@ -223,7 +223,7 @@ class DetailState extends State<Detail> {
   }
 
   Widget _buildRewordPanel() {
-    final rewordQRCodeUrl = _productData==null?'http://via.placeholder.com/350x150':_productData["imgUrl"];
+    final rewordQRCodeUrl = _productData==null?'http://via.placeholder.com/350x150':_productData["qrCode"];
     return Container(
       margin: const EdgeInsets.only(top: 20.0,bottom: 20.0),
       child: Column(
@@ -239,7 +239,7 @@ class DetailState extends State<Detail> {
   }
 
   Widget _buildTagsList() {
-    List tagList = _productData==null? <String>['sample tag 1', 'sample tag 2']:_productData["tagList"];
+    List tagList = _productData==null? <String>['加载中']:_productData["tagList"];
     return Container(
       margin: const EdgeInsets.only(top: 10.0,bottom: 10.0),
       child: Column(
@@ -262,7 +262,6 @@ class DetailState extends State<Detail> {
       child: Column(
         children: <Widget>[
           Text('点击下载'),
-          Text(fileUrl),
           RaisedButton(
             color: Colors.yellow[400],
             textColor: Colors.white,
