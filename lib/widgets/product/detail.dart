@@ -192,11 +192,17 @@ class DetailState extends State<Detail> {
       children: <Widget>[
         Container(
           margin: const EdgeInsets.only(left: 8.0,right: 8.0),
-          child: RaisedButton(
+          child: _productData!=null && _productData["subscribe"] == true? Text(
+            '已订阅',
+            style: TextStyle(fontSize: 20),
+          ): RaisedButton(
             color: Colors.lightBlue,
             textColor: Colors.white,
             onPressed: () {
               //TODO
+              setState(() {
+                _productData["subscribe"] = true;
+              });
             },
             child: new Text(
               '订阅',
@@ -206,11 +212,17 @@ class DetailState extends State<Detail> {
         ),
         Container(
           margin: const EdgeInsets.only(left: 8.0,right: 8.0),
-          child: RaisedButton(
+          child: _productData!=null && _productData["follow"] == true? Text(
+            '已关注',
+            style: TextStyle(fontSize: 20),
+          ): RaisedButton(
             color: Colors.lightBlue,
             textColor: Colors.white,
             onPressed: () {
               //TODO
+              setState(() {
+                _productData["follow"] = true;
+              });
             },
             child: new Text(
               '关注',
