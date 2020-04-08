@@ -260,6 +260,7 @@ class DetailState extends State<Detail> {
       child: Column(
         children: <Widget>[
           Text('点击下载'),
+          Text(fileUrl),
           RaisedButton(
             color: Colors.yellow[400],
             textColor: Colors.white,
@@ -417,11 +418,11 @@ class DetailState extends State<Detail> {
     final MultipartFile file = await filePicker.transferToMultipartFile();
     final MultipartFile coverFile = await imagePicker.transferToMultipartFile();
     if(coverFile==null){
-      showToast("还没上传封面");
+      showToast("还没上传封面",context);
       return;
     }
     if(file==null){
-      showToast("还没上传文件");
+      showToast("还没上传文件",context);
       return;
     }
     FormData formData = new FormData.fromMap({
@@ -429,7 +430,7 @@ class DetailState extends State<Detail> {
       "description": descriptionController.text,
       "file": file,
       "cover": coverFile,
-      "tags": "游戏，图片",
+      "tags": "游戏,图片",
     });
     print("post");
     Dio dio = baseDio();
@@ -443,7 +444,7 @@ class DetailState extends State<Detail> {
         },);
       postTask.then((response) {
         print(response.data.toString());
-        showToast("发布成功");
+        showToast("发布成功",context);
       });
     } on DioError catch (e) {
       print("error");
