@@ -169,6 +169,7 @@ class DetailState extends State<Detail> {
 
   Widget _buildSideBar() {
     return Container(
+      width: 300,
       margin: const EdgeInsets.only(top: 10.0),
       child: Column(
         children: <Widget>[
@@ -187,6 +188,7 @@ class DetailState extends State<Detail> {
 
   Widget _buildActionRow() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
           margin: const EdgeInsets.only(left: 8.0,right: 8.0),
