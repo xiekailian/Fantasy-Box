@@ -60,7 +60,7 @@ class BodyPlaceState extends State<BodyPlace> with SingleTickerProviderStateMixi
                         children: <Widget>[
                           Wrap(
                             // alignment: WrapAlignment.spaceAround,
-                            children: buildContentItems(context,typeList[0]['content']),
+                            children: buildMyItems(context,typeList[0]['content']),
                           )
                         ],
                       ),

@@ -1,6 +1,7 @@
 // 提供五套可选主题色
 import 'dart:convert';
 
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:fantasy_box/models/index.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +29,8 @@ class Global {
 
   // 是否为release版
   static bool get isRelease => bool.fromEnvironment("dart.vm.product");
+
+  static final CookieJar cookieJar = new CookieJar();
 
   //初始化全局信息，会在APP启动时执行
   static Future init() async {

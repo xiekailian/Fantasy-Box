@@ -104,6 +104,7 @@ class HomeDisplayState extends State<HomeDisplay> with TickerProviderStateMixin 
               // 请求成功，显示数据
               product = snapshot.data;
               productList = product.data;
+              productList = productList.sublist(0,4);
               _tabController = TabController(length: productList.length, vsync: this);
               productList.forEach((element) {
                 if(element['content']==null){

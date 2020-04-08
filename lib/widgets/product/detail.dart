@@ -242,7 +242,8 @@ class DetailState extends State<Detail> {
         children: <Widget>[
           Text('打赏作者'),
           Image(
-            width: 250.0,
+            width: 300.0,
+            height: 400.0,
             image: NetworkImage(rewordQRCodeUrl),
           ),
         ],
