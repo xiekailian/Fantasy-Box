@@ -22,7 +22,7 @@ class HeaderPlaceState extends State<HeaderPlace> with SingleTickerProviderState
       width: MediaQuery.of(context).size.width,
       height: 200.0,
       decoration: BoxDecoration(
-        image: DecorationImage(image: AssetImage("images/swiper1.jpg"),fit: BoxFit.fill)
+        image: DecorationImage(image: AssetImage("images/bg1.jpg"),fit: BoxFit.fill)
       ),
       //头像和昵称区域
       child: Stack(
