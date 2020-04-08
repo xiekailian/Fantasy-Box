@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:io';
 import 'package:dio/dio.dart';
 
@@ -27,4 +28,8 @@ Dio baseDio() {
     responseType: ResponseType.json,
   ));
   return dio;
+}
+
+void newTab(String url){
+  window.open(url, '下载作品');
 }

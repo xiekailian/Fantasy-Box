@@ -468,13 +468,7 @@ class DetailState extends State<Detail> {
   }
 
   void download(String url) async {
-    Dio dio = Dio();
-    try {
-      Response response = await dio.get(url);
-      print(response.data);
-    } on DioError catch (e) {
-      print("error");
-    }
+    newTab(url);
   }
 
 //
